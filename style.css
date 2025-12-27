@@ -114,6 +114,7 @@ body {
   white-space: nowrap;
   position: relative;
   z-index: 1;
+  margin 0 auto 0;
 }
 
 .blog h2 .date {
