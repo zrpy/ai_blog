@@ -65,11 +65,12 @@ for (const file of fs.readdirSync("blogs_raw")) {
   // 🔥 Card-style list
   list += `
 <div class="blog">
-  <a class="blog-link" href="/blogs/${id}">
-    <span class="blog-title">${data.title}</span>
-    <span class="blog-date">${created}</span>
-  </a>
+  <h2>
+    <a href="/blogs/${id}">${data.title}</a>
+    <span class="date">${created}</span>
+  </h2>
 </div>`;
+
 }
 
 /* ---------------------------
