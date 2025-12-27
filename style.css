@@ -91,15 +91,18 @@ body {
 
 
 .blog h2 {
-    font-size: 25px;
-    margin 0 auto 0;
-    padding: 25px 20px;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1;
-    letter-spacing: 0.05em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.blog h2 .date {
+  font-size: 0.6em;
+  opacity: 0.6;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
 
 a {
     text-decoration:none;
