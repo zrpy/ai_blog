@@ -1,7 +1,6 @@
 import fs from "fs";
 import { marked } from "marked";
 import matter from "gray-matter";
-import fs from "fs";
 if (fs.existsSync("blogs")) {
   fs.rmSync("blogs", { recursive: true, force: true });
 }
