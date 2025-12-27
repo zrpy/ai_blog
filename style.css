@@ -74,33 +74,57 @@ body {
 }
 
 .blog {
-    height: 80px;
-    margin: 0px auto 20px;
-    text-align: left;
-    box-sizing: border-box;
-    width: 85%;
-    max-width: 600px;
-    border-radius: 30px;
-    background-color:var(--bgColor-default);
-    box-shadow: 0 0 30px rgba(0, 0, 0, .6);
-    white-space: nowrap;
-    color: var(--color);
+  height: 80px;
+  margin: 0 auto 20px;
+  text-align: left;
+  box-sizing: border-box;
+  width: 85%;
+  max-width: 600px;
+  border-radius: 30px;
+  background-color: var(--bgColor-default);
+  box-shadow: 0 0 30px rgba(0, 0, 0, .6);
+  white-space: normal; /* 折返し許可 */
+  color: var(--color);
+  padding: 12px 16px; /* 内側余白 */
+  overflow: hidden; /* はみ出し防止 */
+  display: flex;
+  align-items: center;
 }
 
-
-
-
+/* 見出し行を左右に配置、必要なら折返し */
 .blog h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex: 1 1 auto;
+  gap: 12px;
+  margin: 0;
+  font-size: 1.1em;
+  line-height: 1.1;
+  white-space: nowrap; /* 見出しテキスト自体は単行にしたい場合 */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* 日付は長くなっても縮小・省略される */
 .blog h2 .date {
-  font-size: 0.6em;
-  opacity: 0.6;
+  font-size: 0.8em; /* 少し大きめに調整 */
+  opacity: 0.7;
   margin-left: 12px;
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  max-width: 30%; /* 親幅に対する最大幅 */
+  min-width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* タイトルが長い場合に省略する例（任意） */
+.blog h2 .title {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 
