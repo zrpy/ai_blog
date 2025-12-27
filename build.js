@@ -2,44 +2,38 @@ import fs from "fs";
 import { marked } from "marked";
 import matter from "gray-matter";
 
-// ----------------------------
-// Parse FILE_DATES from GitHub Actions
-// ----------------------------
+/* ---------------------------
+   Parse FILE_DATES from YAML
+----------------------------*/
 const fileDates = {};
-
 if (process.env.FILE_DATES) {
-  const lines = process.env.FILE_DATES.split("\n");
-  for (const line of lines) {
+  for (const line of process.env.FILE_DATES.split("\n")) {
     if (!line.includes("=")) continue;
-
-    const eq = line.indexOf("=");
-    const file = line.slice(0, eq).trim();
-    const value = line.slice(eq + 1).trim();
-    const [created, updated] = value.split("|");
-
-    fileDates[file] = { created, updated };
+    const [file, v] = line.split("=");
+    const [created, updated] = v.split("|");
+    fileDates[file.trim()] = { created, updated };
   }
 }
 
-// ----------------------------
-// Clean blogs folder
-// ----------------------------
+/* ---------------------------
+   Clean blogs
+----------------------------*/
 if (fs.existsSync("blogs")) {
   fs.rmSync("blogs", { recursive: true, force: true });
 }
 fs.mkdirSync("blogs");
 
-// ----------------------------
-// Load templates
-// ----------------------------
+/* ---------------------------
+   Load templates
+----------------------------*/
 const articleTpl = fs.readFileSync("article.template.html", "utf8");
-const indexTpl   = fs.readFileSync("index.template.html", "utf8");
+const indexTpl = fs.readFileSync("index.template.html", "utf8");
 
 let list = "";
 
-// ----------------------------
-// Build each markdown
-// ----------------------------
+/* ---------------------------
+   Build all MD
+----------------------------*/
 for (const file of fs.readdirSync("blogs_raw")) {
   if (!file.endsWith(".md")) continue;
 
@@ -58,7 +52,7 @@ for (const file of fs.readdirSync("blogs_raw")) {
     .map(t => `<span class="tag">${t.trim()}</span>`)
     .join("");
 
-  let page = articleTpl
+  const page = articleTpl
     .replace("<!-- replace:title -->", data.title || "")
     .replace("<!-- replace:created -->", created)
     .replace("<!-- replace:updated -->", updated)
@@ -68,6 +62,7 @@ for (const file of fs.readdirSync("blogs_raw")) {
   fs.mkdirSync(`blogs/${id}`, { recursive: true });
   fs.writeFileSync(`blogs/${id}/index.html`, page);
 
+  // 🔥 Card-style list
   list += `
 <div class="blog">
   <a class="blog-link" href="/blogs/${id}">
@@ -77,9 +72,9 @@ for (const file of fs.readdirSync("blogs_raw")) {
 </div>`;
 }
 
-// ----------------------------
-// Write index.html
-// ----------------------------
+/* ---------------------------
+   Write index
+----------------------------*/
 fs.writeFileSync(
   "index.html",
   indexTpl.replace("<!-- replace:blog-list -->", list)
