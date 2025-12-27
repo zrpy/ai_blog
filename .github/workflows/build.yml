@@ -22,6 +22,16 @@ jobs:
 
       - run: npm install marked gray-matter
 
+      - name: Collect file dates
+        run: |
+          echo "FILE_DATES<<EOF" >> $GITHUB_ENV
+          for f in blogs_raw/*.md; do
+            created=$(git log --diff-filter=A --format="%ad" --date=short -- "$f" | tail -1)
+            updated=$(git log -1 --format="%ad" --date=short -- "$f")
+            echo "$f=$created|$updated" >> $GITHUB_ENV
+          done
+          echo "EOF" >> $GITHUB_ENV
+
       - run: node build.js
 
       - name: Prepare Pages files
@@ -38,8 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v4
