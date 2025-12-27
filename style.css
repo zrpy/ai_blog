@@ -91,41 +91,40 @@ body {
   align-items: center;
 }
 
-/* 見出し行を左右に配置、必要なら折返し */
+.blog {
+  position: relative; /* 基準を揃える */
+  padding: 12px 16px;
+  overflow: hidden;
+}
+
 .blog h2 {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  flex: 1 1 auto;
   gap: 12px;
   margin: 0;
-  font-size: 1.1em;
-  line-height: 1.1;
-  white-space: nowrap; /* 見出しテキスト自体は単行にしたい場合 */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  position: relative; /* 絶対配置を使わない */
+  z-index: 1;
 }
 
-/* 日付は長くなっても縮小・省略される */
-.blog h2 .date {
-  font-size: 0.8em; /* 少し大きめに調整 */
-  opacity: 0.7;
-  margin-left: 12px;
-  flex: 0 0 auto;
-  max-width: 30%; /* 親幅に対する最大幅 */
-  min-width: 60px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* タイトルが長い場合に省略する例（任意） */
 .blog h2 .title {
   flex: 1 1 auto;
+  min-width: 0; /* flexで省略を有効にする */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  position: relative;
+  z-index: 1;
 }
+
+.blog h2 .date {
+  flex: 0 0 auto;
+  min-width: 60px;
+  max-width: 30%;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+}
+
 
 
 a {
