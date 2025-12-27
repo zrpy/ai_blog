@@ -1,6 +1,12 @@
 import fs from "fs";
 import { marked } from "marked";
 import matter from "gray-matter";
+import fs from "fs";
+if (fs.existsSync("blogs")) {
+  fs.rmSync("blogs", { recursive: true, force: true });
+}
+fs.mkdirSync("blogs");
+
 
 const articleTpl = fs.readFileSync("article.template.html", "utf8");
 const indexTpl = fs.readFileSync("index.template.html", "utf8");
