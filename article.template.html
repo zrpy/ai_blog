@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1, viewport-fit=cover"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <link rel="stylesheet" href="/github-markdown.css" />
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-83D01EDLD6"></script>
+</head>
+<body>
+    <h1 id="title"><!-- replace:title --></h1>
+
+    <div class="meta">
+        <span class="date"><!-- replace:date --></span>
+        <span class="tags"><!-- replace:tags --></span>
+    </div>
+
+    <div id="markdown" class="markdown-body">
+        <!-- replace:content -->
+    </div>
+
+    <button class="change_theme" onclick="change_theme()">🔦</button>
+    <p>Most of the articles have been significantly rewritten by AI.</p>
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+
+        $(function(){
+            const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
+            const html = document.documentElement;
+            html.setAttribute('data-theme', theme);
+        });
+
+        function change_theme() {
+            const html = document.documentElement;
+            const theme = html.getAttribute('data-theme');
+            const to_theme = theme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', to_theme);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'G-83D01EDLD6');
+    </script>
+</body>
+</html>
