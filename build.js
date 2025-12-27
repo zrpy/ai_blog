@@ -2,31 +2,44 @@ import fs from "fs";
 import { marked } from "marked";
 import matter from "gray-matter";
 
-// ---------- load git dates from env ----------
-const fileDates = Object.fromEntries(
-  (process.env.FILE_DATES || "")
-    .split("\n")
-    .filter(Boolean)
-    .map(l => {
-      const [f, v] = l.split("=");
-      const [c, u] = v.split("|");
-      return [f, { created: c, updated: u }];
-    })
-);
+// ----------------------------
+// Parse FILE_DATES from GitHub Actions
+// ----------------------------
+const fileDates = {};
 
-// ---------- clean blogs ----------
+if (process.env.FILE_DATES) {
+  const lines = process.env.FILE_DATES.split("\n");
+  for (const line of lines) {
+    if (!line.includes("=")) continue;
+
+    const eq = line.indexOf("=");
+    const file = line.slice(0, eq).trim();
+    const value = line.slice(eq + 1).trim();
+    const [created, updated] = value.split("|");
+
+    fileDates[file] = { created, updated };
+  }
+}
+
+// ----------------------------
+// Clean blogs folder
+// ----------------------------
 if (fs.existsSync("blogs")) {
   fs.rmSync("blogs", { recursive: true, force: true });
 }
 fs.mkdirSync("blogs");
 
-// ---------- load templates ----------
-const articleTpl = fs.readFileSync("article.html", "utf8");
-const indexTpl   = fs.readFileSync("index.html", "utf8");
+// ----------------------------
+// Load templates
+// ----------------------------
+const articleTpl = fs.readFileSync("article.template.html", "utf8");
+const indexTpl   = fs.readFileSync("index.template.html", "utf8");
 
 let list = "";
 
-// ---------- build each md ----------
+// ----------------------------
+// Build each markdown
+// ----------------------------
 for (const file of fs.readdirSync("blogs_raw")) {
   if (!file.endsWith(".md")) continue;
 
@@ -62,7 +75,9 @@ for (const file of fs.readdirSync("blogs_raw")) {
 </div>`;
 }
 
-// ---------- write index ----------
+// ----------------------------
+// Write index.html
+// ----------------------------
 fs.writeFileSync(
   "index.html",
   indexTpl.replace("<!-- replace:blog-list -->", list)
