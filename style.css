@@ -41,36 +41,39 @@ body {
     overflow: hidden;
 }
 
-/* old layout (kept for safety) */
+/* h2 is no longer the frame */
 .blog h2 {
-    font-size: 25px;
-    padding: 25px 20px;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    overflow: visible;
+    white-space: normal;
 }
 
-/* ---- new correct layout ---- */
+/* new frame */
 .blog-inner {
+    font-size: 25px;
+    padding: 25px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 25px 20px;
-    font-size: 25px;
     box-sizing: border-box;
+
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
+/* title */
 .blog-inner h2 {
     margin: 0;
     padding: 0;
     font-size: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
+/* links */
 .blog-inner h2 a {
     color: var(--text);
     text-decoration: none;
@@ -80,6 +83,7 @@ body {
     text-decoration: underline;
 }
 
+/* date */
 .blog-inner .date {
     font-size: 0.6em;
     opacity: 0.6;
