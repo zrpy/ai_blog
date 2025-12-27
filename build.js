@@ -70,10 +70,10 @@ for (const file of fs.readdirSync("blogs_raw")) {
 
   list += `
 <div class="blog">
-  <div class="blog-inner">
-    <h2><a href="/blogs/${id}">${data.title}</a></h2>
-    <span class="date">${created}</span>
-  </div>
+  <a class="blog-link" href="/blogs/${id}">
+    <span class="blog-title">${data.title}</span>
+    <span class="blog-date">${created}</span>
+  </a>
 </div>`;
 }
 
