@@ -69,9 +69,10 @@ for (const file of fs.readdirSync("blogs_raw")) {
   fs.writeFileSync(`blogs/${id}/index.html`, page);
 
   list += `
-<div class="blog">
-  <h2><a href="/blogs/${id}">${data.title}</a>${created}</h2>
-</div>`;
+  <div class="blog">
+      <h2><a href="/blogs/${id}">${data.title}</a></h2>
+      <span class="date">${created}</span>
+  </div>`;
 }
 
 // ----------------------------
