@@ -1,6 +1,5 @@
 ---
 title: 基本的なスクレイピング
-date: 2025-01-01
 tags: scrape,scraping,anti-bot
 ---
 # スクレイピングの方法
