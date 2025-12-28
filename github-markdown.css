@@ -64,7 +64,7 @@ body {
     --color-prettylights-syntax-meta-diff-range: #d2a8ff;
     --color-prettylights-syntax-sublimelinter-gutter-mark: #3d444d;
   }
-[data-theme="dark"] #markdown, .tags {
+[data-theme="dark"] #markdown, .tag {
     color-scheme: dark;
     --bgColor-default: #26272F;
     --m-padding:1em;
@@ -1253,7 +1253,7 @@ body .highlight pre:has(+.zeroclipboard-container) {
   }
 
 
-[data-theme="light"] #markdown, .tags {
+[data-theme="light"] #markdown, .tag {
   color-scheme: light;
   --bgColor-default: #fff;
   --m-padding: 1em;
