@@ -53,11 +53,11 @@ for (const file of fs.readdirSync("blogs_raw")) {
     .join("");
 
   const page = articleTpl
-    .replace("<!-- replace:title -->", data.title || "")
-    .replace("<!-- replace:created -->", created)
-    .replace("<!-- replace:updated -->", updated)
-    .replace("<!-- replace:tags -->", tags)
-    .replace("<!-- replace:content -->", html);
+    .replaceAll("<!-- replace:title -->", data.title || "")
+    .replaceAll("<!-- replace:created -->", created)
+    .replaceAll("<!-- replace:updated -->", updated)
+    .replaceAll("<!-- replace:tags -->", tags)
+    .replaceAll("<!-- replace:content -->", html);
 
   fs.mkdirSync(`blogs/${id}`, { recursive: true });
   fs.writeFileSync(`blogs/${id}/index.html`, page);
