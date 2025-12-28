@@ -23,6 +23,11 @@ if (fs.existsSync("blogs")) {
 }
 fs.mkdirSync("blogs");
 
+if (!fs.existsSync("blogs_raw")) {
+  console.warn("⚠️ 'blogs_raw' フォルダが存在しません。処理をスキップします。");
+  fs.mkdirSync("blogs_raw");
+}
+
 /* ---------------------------
    Load templates
 ----------------------------*/
