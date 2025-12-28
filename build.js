@@ -117,7 +117,14 @@ if (fs.existsSync("blogs")) {
   };
   walk("blogs");
 }
-
+urls.push({
+    loc: `${siteUrl.replace(/\/$/, "")}/line_stamp_cloner.html`,
+    lastmod: mtime
+});
+urls.push({
+    loc: `${siteUrl.replace(/\/$/, "")}/line_stamp.html`,
+    lastmod: mtime
+});
 // sitemap.xml を組み立てて書き出す
 const sitemapEntries = urls.map(u => {
   return `  <url>
