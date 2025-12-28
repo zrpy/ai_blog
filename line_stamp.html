@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>Line Stamp Downloader</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1, viewport-fit=cover"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <h1 class="title">Line Stamp Downloader</h1>
+    <div id="informations">
+        <div class="information">
+            <div class="window">
+                <h1>Download</h1>
+                <a id="downloadLink" href="#" download="images.zip" style="display:none;">ZIPをダウンロード</a><br>
+                <input type="text" placeholder="URL" id="url"><br>
+                <button class="basic_button" onclick="download()">Get</button>      
+            </div>
+        </div>
+    </div>
+    <button class="change_theme" onclick="change_theme()">🔦</button>
+
+    <script>
+        async function get_content(url) {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Error");
+            return await response.blob();
+        }
+
+        async function download() {
+            const zip = new JSZip();
+            const urlInput = document.getElementById('url').value.trim();
+            const id = urlInput.split("/")[5];
+            try {
+                const response = await axios.get(`https://stickershop.line-scdn.net/products/0/0/1/${id}/iphone/productInfo.meta`);
+                const stickers = response.data.stickers;
+                const package_name = response.data.title.en;
+                const fetchAll = stickers.map(async (sticker) => {
+                    const s_id = sticker.id;
+                    const imageUrl = `https://stickershop.line-scdn.net/stickershop/v1/sticker/${s_id}/iphone/sticker@2x.png`;
+                    try {
+                        const blob = await get_content(imageUrl);
+                        zip.file(`${s_id}.png`, blob);
+                    } catch (err) {
+                        console.warn(err);
+                    }
+                });
+                await Promise.all(fetchAll);
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                const zipUrl = URL.createObjectURL(zipBlob);
+                const link = document.getElementById('downloadLink');
+                link.download=`${package_name}.zip`;
+                link.href = zipUrl;
+                link.style.display = 'inline';
+            } catch (error) {
+                console.warn(error);
+                alert("スタンプ情報の取得に失敗しました。");
+            }
+        }
+        $(function(){
+            const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
+            const html = document.documentElement;
+            html.setAttribute('data-theme', theme);
+        });
+        function change_theme() {
+            const html = document.documentElement;
+            const theme = html.getAttribute('data-theme');
+            const to_theme = theme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', to_theme);
+        }
+    </script>
+</body>
+</html>
