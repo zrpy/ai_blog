@@ -81,63 +81,36 @@ fs.writeFileSync(
   indexTpl.replace("<!-- replace:blog-list -->", list)
 );
 /* ---------------------------
-   Build sitemap.xml
+   Build sitemap.xml (blogs + root .html only)
 ----------------------------*/
-const siteUrl = "https://zrpy.f5.si"; // 実サイトの URL に置き換える
+const siteUrl = (process.env.SITE_URL || "https://example.com").replace(/\/$/, "");
 const urls = [];
 
-// ルート（index.html）
-urls.push({
-  loc: `${siteUrl.replace(/\/$/, "")}/`,
-  lastmod: new Date().toISOString().slice(0, 10)
-});
+// helper: get lastmod YYYY-MM-DD
+const lastMod = (p) => fs.statSync(p).mtime.toISOString().slice(0, 10);
 
-// blogs 配下の各記事ページを収集
-if (fs.existsSync("blogs")) {
-  const walk = (dir) => {
-    for (const name of fs.readdirSync(dir)) {
-      const full = `${dir}/${name}`;
-      const stat = fs.statSync(full);
-      if (stat.isDirectory()) {
-        // 各ディレクトリの index.html を対象にする
-        const indexPath = `${full}/index.html`;
-        if (fs.existsSync(indexPath)) {
-          // lastmod を可能なら元データから取得（blogs_raw の FILE_DATES か frontmatter の updated/created を参照）
-          // ここではファイルの更新時刻を使用
-          const mtime = fs.statSync(indexPath).mtime.toISOString().slice(0, 10);
-          const rel = full.replace(/^blogs/, "blogs"); // 相対パスのまま
-          urls.push({
-            loc: `${siteUrl.replace(/\/$/, "")}/${rel}/`,
-            lastmod: mtime
-          });
-        }
-        walk(full);
-      }
-    }
-  };
-  walk("blogs");
+// 1) ルート直下の .html（index.html を含む）
+for (const f of fs.readdirSync(".")) {
+  if (f.endsWith(".html") && fs.statSync(f).isFile()) {
+    const loc = f === "index.html" ? `${siteUrl}/` : `${siteUrl}/${f}`;
+    urls.push({ loc, lastmod: lastMod(f) });
+  }
 }
-urls.push({
-    loc: `${siteUrl.replace(/\/$/, "")}/line_stamp_cloner.html`,
-    lastmod: mtime
-});
-urls.push({
-    loc: `${siteUrl.replace(/\/$/, "")}/line_stamp.html`,
-    lastmod: mtime
-});
-// sitemap.xml を組み立てて書き出す
-const sitemapEntries = urls.map(u => {
-  return `  <url>
-    <loc>${u.loc}</loc>
-    <lastmod>${u.lastmod}</lastmod>
-  </url>`;
-}).join("\n");
 
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemapEntries}
-</urlset>
-`;
+// 2) blogs 配下：各記事ディレクトリの index.html のみ
+if (fs.existsSync("blogs")) {
+  for (const name of fs.readdirSync("blogs")) {
+    const dir = `blogs/${name}`;
+    const indexPath = `${dir}/index.html`;
+    if (fs.existsSync(indexPath) && fs.statSync(indexPath).isFile()) {
+      urls.push({ loc: `${siteUrl}/${dir}/`, lastmod: lastMod(indexPath) });
+    }
+  }
+}
 
+// write sitemap.xml
+const sitemapEntries = urls.map(u => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n  </url>`).join("\n");
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries}\n</urlset>\n`;
 fs.writeFileSync("sitemap.xml", sitemap, "utf8");
+
 
