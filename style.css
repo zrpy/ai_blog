@@ -116,8 +116,8 @@ body {
 
 .tag {
     display: inline-block;
-    background: var(--card);
-    border: 1px solid var(--border);
+    background: #f2f2f2;
+    border: 1px solid #dddddd;
     border-radius: 999px;
     padding: 3px 10px;
     margin-right: 6px;
