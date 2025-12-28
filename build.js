@@ -18,10 +18,17 @@ if (process.env.FILE_DATES) {
 /* ---------------------------
    Clean blogs
 ----------------------------*/
+if (fs.existsSync("blogs")) {
+  fs.rmSync("blogs", { recursive: true, force: true });
+}
+fs.mkdirSync("blogs");
 
+/* ---------------------------
+   Check blogs_raw exists
+----------------------------*/
 if (!fs.existsSync("blogs_raw")) {
-  console.log("⚠️ 'blogs_raw' フォルダが存在しないので作成します。");
-  fs.mkdirSync("blogs_raw");
+  console.warn("⚠️ 'blogs_raw' フォルダが存在しません。処理をスキップします。");
+  process.exit(0); // スクリプト終了
 }
 
 /* ---------------------------
@@ -71,7 +78,6 @@ for (const file of fs.readdirSync("blogs_raw")) {
   </h2>
   <span class="date">${created}</span>
 </div>`;
-
 }
 
 /* ---------------------------
@@ -81,3 +87,5 @@ fs.writeFileSync(
   "index.html",
   indexTpl.replace("<!-- replace:blog-list -->", list)
 );
+
+console.log("✅ ビルド完了");
