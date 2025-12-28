@@ -32,6 +32,13 @@ jobs:
           done
           echo "EOF" >> $GITHUB_ENV
 
+      - name: Reset blogs folder
+        run: |
+          if [ -d blogs ]; then
+            rm -rf blogs
+          fi
+          mkdir blogs
+
       - run: node build.js
 
       - name: Prepare Pages files
