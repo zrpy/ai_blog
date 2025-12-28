@@ -51,13 +51,13 @@
 
 [data-theme="dark"] .tag {
     --card: #26272F;
-    --border: #30363d;
+    --border: #3d444d;
 }
 
 
 [data-theme="light"] .tag {
     --card: #fff;
-    --border: #dddddd;
+    --border: #e5e7eb;
 }
 
 body {
