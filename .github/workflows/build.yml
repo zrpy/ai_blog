@@ -32,19 +32,12 @@ jobs:
           done
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Reset blogs folder
-        run: |
-          if [ -d blogs ]; then
-            rm -rf blogs
-          fi
-          mkdir blogs
-
       - run: node build.js
 
       - name: Prepare Pages files
         run: |
           mkdir dist
-          cp -r index.html blogs_raw style.css github-markdown.css icon.png line_stamp.html line_stamp_cloner.html assets dist || true
+          cp -r index.html blogs style.css github-markdown.css assets dist || true
 
       - uses: actions/upload-pages-artifact@v3
         with:
