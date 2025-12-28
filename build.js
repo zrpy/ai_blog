@@ -67,8 +67,8 @@ for (const file of fs.readdirSync("blogs_raw")) {
 <div class="blog">
   <h2>
     <a href="/blogs/${id}">${data.title}</a>
-    <span class="date">${created}</span>
   </h2>
+  <span class="date">${created}</span>
 </div>`;
 
 }
