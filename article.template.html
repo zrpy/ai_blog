@@ -12,9 +12,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <link rel="stylesheet" href="/github-markdown.css" />
-
+    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-83D01EDLD6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-83D01EDLD6');
+    </script>
 </head>
 <body>
     <h1 id="title"><!-- replace:title --></h1>
@@ -48,9 +54,6 @@
             const to_theme = theme === 'light' ? 'dark' : 'light';
             html.setAttribute('data-theme', to_theme);
         }
-
-        gtag('js', new Date());
-        gtag('config', 'G-83D01EDLD6');
     </script>
 </body>
 </html>
