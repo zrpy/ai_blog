@@ -23,7 +23,6 @@ if (fs.existsSync("blogs")) {
 }
 fs.mkdirSync("blogs");
 
-
 /* ---------------------------
    Load templates
 ----------------------------*/
@@ -71,6 +70,7 @@ for (const file of fs.readdirSync("blogs_raw")) {
   </h2>
   <span class="date">${created}</span>
 </div>`;
+
 }
 
 /* ---------------------------
@@ -80,5 +80,3 @@ fs.writeFileSync(
   "index.html",
   indexTpl.replace("<!-- replace:blog-list -->", list)
 );
-
-console.log("✅ ビルド完了");
