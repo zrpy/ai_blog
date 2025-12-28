@@ -49,14 +49,14 @@
 }
 
 
-[data-theme="dark"] .blog {
+[data-theme="dark"] .tag {
     --card: #161b22;
     --border: #30363d;
 }
 
 
-[data-theme="light"] .blog {
-    --card: #f2f2f2;
+[data-theme="light"] .tag {
+    --card: #fff;
     --border: #dddddd;
 }
 
