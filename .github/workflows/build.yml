@@ -44,7 +44,7 @@ jobs:
       - name: Prepare Pages files
         run: |
           mkdir dist
-          cp -r index.html blogs style.css github-markdown.css icon.png assets dist || true
+          cp -r index.html blogs style.css github-markdown.css icon.png line_stamp.html line_stamp_cloner.html assets dist || true
 
       - uses: actions/upload-pages-artifact@v3
         with:
