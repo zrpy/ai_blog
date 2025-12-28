@@ -24,7 +24,7 @@ if (fs.existsSync("blogs")) {
 fs.mkdirSync("blogs");
 
 if (!fs.existsSync("blogs_raw")) {
-  console.warn("⚠️ 'blogs_raw' フォルダが存在しません。処理をスキップします。");
+  console.log("⚠️ 'blogs_raw' フォルダが存在しないので作成します。");
   fs.mkdirSync("blogs_raw");
 }
 
