@@ -18,10 +18,6 @@ if (process.env.FILE_DATES) {
 /* ---------------------------
    Clean blogs
 ----------------------------*/
-if (fs.existsSync("blogs")) {
-  fs.rmSync("blogs", { recursive: true, force: true });
-}
-fs.mkdirSync("blogs");
 
 if (!fs.existsSync("blogs_raw")) {
   console.log("⚠️ 'blogs_raw' フォルダが存在しないので作成します。");
