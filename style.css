@@ -114,6 +114,15 @@ body {
   white-space: nowrap;
 }
 
+.tag {
+    display: inline-block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px 10px;
+    margin-right: 6px;
+    font-size: 12px;
+}
 
 a {
     text-decoration:none;
