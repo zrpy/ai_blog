@@ -72,60 +72,47 @@ body {
 .title {
     margin:50px auto 0;
 }
-
 .blog {
-  height: 80px;
-  margin: 0 auto 20px;
-  text-align: left;
+  height: 90px;
+  margin: 0px auto 20px;
   box-sizing: border-box;
   width: 85%;
   max-width: 600px;
   border-radius: 30px;
   background-color: var(--bgColor-default);
   box-shadow: 0 0 30px rgba(0, 0, 0, .6);
-  white-space: normal; /* 折返し許可 */
   color: var(--color);
-  padding: 12px 16px; /* 内側余白 */
-  overflow: hidden; /* はみ出し防止 */
+
   display: flex;
   align-items: center;
-}
-
-.blog {
-  position: relative; /* 基準を揃える */
-  padding: 12px 16px;
+  padding: 0 20px;
+  gap: 12px;
+  position: relative; /* 追加：日付を絶対配置するため */
   overflow: hidden;
 }
 
 .blog h2 {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-size: 25px;
   margin: 0;
-  position: relative; /* 絶対配置を使わない */
-  z-index: 1;
-}
+  padding: 0;
+  line-height: 1;
+  letter-spacing: 0.05em;
 
-.blog h2 .title {
   flex: 1 1 auto;
-  min-width: 0; /* flexで省略を有効にする */
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  position: relative;
-  z-index: 1;
-  margin: 0 auto 0;
 }
 
-.blog h2 .date {
-  flex: 0 0 auto;
-  min-width: 60px;
-  max-width: 30%;
+/* 右下に固定表示 */
+.blog .date {
+  position: absolute;
+  right: 18px;    /* パディング分を考慮 */
+  bottom: 10px;   /* 下からの余白 */
+  font-size: 13px;
+  opacity: 0.85;
   white-space: nowrap;
-  position: relative;
-  z-index: 1;
 }
-
 
 
 a {
