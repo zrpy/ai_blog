@@ -81,20 +81,21 @@ fs.writeFileSync(
   indexTpl.replace("<!-- replace:blog-list -->", list)
 );
 /* ---------------------------
-   Build sitemap.xml (blogs + root .html only)
+   Build sitemap.xml (blogs + root .html only, exclude *.template.html)
 ----------------------------*/
-const siteUrl = (process.env.SITE_URL || "https://example.com").replace(/\/$/, "");
+const siteUrl = "https://zrpy.f5.si";
 const urls = [];
 
 // helper: get lastmod YYYY-MM-DD
 const lastMod = (p) => fs.statSync(p).mtime.toISOString().slice(0, 10);
 
-// 1) ルート直下の .html（index.html を含む）
+// 1) ルート直下の .html（index.html を含む）、*.template.html を除外
 for (const f of fs.readdirSync(".")) {
-  if (f.endsWith(".html") && fs.statSync(f).isFile()) {
-    const loc = f === "index.html" ? `${siteUrl}/` : `${siteUrl}/${f}`;
-    urls.push({ loc, lastmod: lastMod(f) });
-  }
+  if (!f.endsWith(".html")) continue;
+  if (f.endsWith(".template.html")) continue; // テンプレートを除外
+  if (!fs.statSync(f).isFile()) continue;
+  const loc = f === "index.html" ? `${siteUrl}/` : `${siteUrl}/${f}`;
+  urls.push({ loc, lastmod: lastMod(f) });
 }
 
 // 2) blogs 配下：各記事ディレクトリの index.html のみ
@@ -112,5 +113,3 @@ if (fs.existsSync("blogs")) {
 const sitemapEntries = urls.map(u => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n  </url>`).join("\n");
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries}\n</urlset>\n`;
 fs.writeFileSync("sitemap.xml", sitemap, "utf8");
-
-
