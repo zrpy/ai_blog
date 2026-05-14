@@ -60,7 +60,7 @@ jobs:
           import subprocess
           from pathlib import Path
 
-          BLOG_DIR = Path("blog_raw")
+          BLOG_DIR = Path("blogs_raw")
           OUTPUT_FILE = Path("blog_metadata.json")
 
           def git_log_dates(filepath):
