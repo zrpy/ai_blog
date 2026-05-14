@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -15,6 +15,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -28,6 +30,7 @@ jobs:
           for f in blogs_raw/*.md; do
             created=$(git log --diff-filter=A --format="%ad" --date=short -- "$f" | tail -1)
             updated=$(git log -1 --format="%ad" --date=short -- "$f")
+            echo $created
             echo "$f=$created|$updated" >> $GITHUB_ENV
           done
           echo "EOF" >> $GITHUB_ENV
