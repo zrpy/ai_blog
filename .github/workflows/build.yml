@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -15,8 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -30,7 +28,6 @@ jobs:
           for f in blogs_raw/*.md; do
             created=$(git log --diff-filter=A --format="%ad" --date=short -- "$f" | tail -1)
             updated=$(git log -1 --format="%ad" --date=short -- "$f")
-            echo $created
             echo "$f=$created|$updated" >> $GITHUB_ENV
           done
           echo "EOF" >> $GITHUB_ENV
@@ -52,46 +49,6 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-
-      - name: Update blog_metadata.json
-        run: |
-          python3 - <<'EOF'
-          import json, os
-          from pathlib import Path
-
-          OUTPUT_FILE = Path("blog_metadata.json")
-
-          # FILE_DATES の形式: "blogs_raw/foo.md=2024-01-15|2024-03-10\n..."
-          raw = os.environ.get("FILE_DATES", "")
-          existing = json.loads(OUTPUT_FILE.read_text()) if OUTPUT_FILE.exists() else {}
-          metadata = dict(existing)
-
-          current_keys = set()
-          for line in raw.splitlines():
-              line = line.strip()
-              if "=" not in line:
-                  continue
-              key, dates = line.split("=", 1)
-              created_at, updated_at = dates.split("|", 1)
-              metadata[key] = {"created_at": created_at, "updated_at": updated_at}
-              current_keys.add(key)
-              print(f"[OK] {key}  created={created_at}  updated={updated_at}")
-
-          for key in set(metadata) - current_keys:
-              del metadata[key]
-              print(f"[DEL] {key}")
-
-          OUTPUT_FILE.write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n")
-          print(f"[DONE] {len(metadata)} entries written.")
-          EOF
-
-      - name: Commit blog_metadata.json
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add blog_metadata.json
-          git diff --cached --quiet || git commit -m "chore: update blog metadata [skip ci]"
-          git push
 
   deploy:
     needs: build
