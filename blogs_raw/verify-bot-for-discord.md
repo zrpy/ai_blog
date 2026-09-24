@@ -28,7 +28,7 @@ Discordで簡単に認証パネルを設置できるBot、「[改札](https://zr
 1. サーバーIDを[このサイト](https://zrpyverify.vercel.app/auth/register)で入力しBOTを加入させ登録する。
 2. [ここから認証パネルを送信する](https://zrpyverify.vercel.app/auth/panel) ※[ここからパネルを削除できます](https://zrpyverify.vercel.app/auth/panel/delete)
 3. [ここからメンバーを呼び戻す](https://zrpyverify.vercel.app/auth/backup)
-5. サーバーの契約を打ち切り、データを完全に削除する場合は[ここから]([https://zrpyverify.vercel.app/auth/backup](https://zrpyverify.vercel.app/auth/delete_data))
+5. サーバーの契約を打ち切り、データを完全に削除する場合は[ここから](https://zrpyverify.vercel.app/auth/delete_data)
 
 ## 注意点
 
